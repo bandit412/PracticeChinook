@@ -49,11 +49,12 @@
                     <a class="navbar-brand" runat="server" href="~/">Application name</a>
                 </div>
                 <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
+                   <%-- this is the old, default menu that could still be used but you would only have root menu items --%>
+                    <%-- <ul class="nav navbar-nav">
                         <li><a runat="server" href="~/">Home</a></li>
                         <li><a runat="server" href="~/About">About</a></li>
                         <li><a runat="server" href="~/Contact">Contact</a></li>
-                    </ul>
+                    </ul>--%>
                     <asp:LoginView runat="server" ViewStateMode="Disabled">
                         <AnonymousTemplate>
                             <ul class="nav navbar-nav navbar-right">
@@ -70,6 +71,26 @@
                             </ul>
                         </LoggedInTemplate>
                     </asp:LoginView>
+                    <%-- To create a workable Drop down menu use an asp:MenuControl and plce it here after the asp:LoginView--%>
+                    <asp:Menu ID="NavMenu" runat="server"
+                        BackColor="#000000"
+                        BorderColor="#ff0000"
+                        StaticMenuItemStyle-ForeColor="#999999"
+                        StaticMenuItemStyle-VerticalPadding="15px"
+                        StaticMenuItemStyle-HorizontalPadding="10px"
+                        RenderingMode="List"
+                        Orientation="Horizontal"
+                        DynamicMenuItemStyle-ForeColor="#999999"
+                        DynamicMenuStyle-BackColor="#000000">
+                        <Items>
+                            <asp:MenuItem Text="Home" NavigateUrl="~/" />
+                            <asp:MenuItem Text="Queries" Value="linq">
+                                <asp:MenuItem Text="First Sample" NavigateUrl="~/Queries/FirstSample.aspx" />
+                            </asp:MenuItem>
+                            <asp:MenuItem Text="About" NavigateUrl="~/About.aspx" />
+                            <asp:MenuItem Text="Contact" NavigateUrl="~/Contact.aspx" />
+                        </Items>
+                    </asp:Menu>
                 </div>
             </div>
         </div>
