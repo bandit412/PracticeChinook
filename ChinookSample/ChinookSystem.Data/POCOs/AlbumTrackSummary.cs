@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ChinookSystem.Data.POCOs
 {
-    public class TrackInfo
+    public class AlbumTrackSummary
     {
         public string Title { get; set; }
         public int NumberOfTracks { get; set; }

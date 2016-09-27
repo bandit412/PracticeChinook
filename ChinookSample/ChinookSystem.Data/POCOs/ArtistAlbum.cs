@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace ChinookSystem.Data.POCOs
 {
-    public class PopularMedia
+    public class ArtistAlbum
     {
-        public string Type { get; set; }
-        public int TCount { get; set; }
+        public string Name { get; set; }
+        public string Title { get; set; }
     }
 }
