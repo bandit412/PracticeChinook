@@ -1,5 +1,5 @@
 # Practice Chinook
-This repository is to practice coding **Entities**, **DTOs**, and **POCOs** within a Visual Studio solution. The Visual Studio solution has a  E**Website**, and two **Class Library** projects: `ChinookSystem` and `ChinookSystem.Data`.
+This repository is to practice coding **Entities**, **DTOs**, and **POCOs** within a Visual Studio solution. The Visual Studio solution has a **Website**, and two **Class Library** projects: `ChinookSystem` and `ChinookSystem.Data`.
 
 ## ChinookSystem
 This class library project has two folders, **BLL** and **DAL**.
