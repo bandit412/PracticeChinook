@@ -47,6 +47,8 @@
     <Compile Include="Entities\MediaType.cs" />
     <Compile Include="Entities\Track.cs" />
     <Compile Include="POCOs\CustomerContact.cs" />
+    <Compile Include="POCOs\PopularMedia.cs" />
+    <Compile Include="POCOs\TrackInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
