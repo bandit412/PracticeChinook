@@ -8,7 +8,7 @@ This class library project has two folders, **BLL** and **DAL**.
 This class library project has three folders **Entities**, **DTOs** and **POCOs**.
 
 ### Entities
-The classes in this folder directly relate to tables in the Chinook database. Each class will include the annotaions from the `System.ComponentModel.Annotations` and `System.ComponentModel.??`
+The classes in this folder directly relate to tables in the Chinook database. Each class will include the annotaions from the `System.ComponentModel.DataAnnotations` and `System.ComponentModel.DataAnnotations.Schema`
 
 ### POCOs
 The classes in this folder are _flat_ files and represent LINQ queries using anonymous data types.
