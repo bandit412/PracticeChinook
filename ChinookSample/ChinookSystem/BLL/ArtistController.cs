@@ -29,11 +29,11 @@ namespace ChinookSystem.BLL
             }
         }
 
-        // Report a DataSet containing data from multiple entities
+        // Report a DataSet containing data from multiple entitie
         // This will use LINQ to Entity access
         // POCO classes will be used to define the data
         [DataObjectMethod(DataObjectMethodType.Select, false)]
-        public List<ArtistAlbum> ArtistAlbums_Get()
+        public List<ArtistAlbum> ArtistAlbums_Get(int year)
         {
             // Setup transaction area
             using (var context = new ChinookContext())
@@ -48,12 +48,12 @@ namespace ChinookSystem.BLL
 
                 // This will stage the LINQ query, not execute
                 var results = from x in context.Albums
-                              where x.ReleaseYear == 2008
-                              orderby x.Artists.Name, x.Title
+                              where x.ReleaseYear == year
+                              orderby x.Artist.Name, x.Title
                               select new ArtistAlbum
                               {
                                   // Name and Title are POCO class property names
-                                  Name = x.Artists.Name,
+                                  Name = x.Artist.Name,
                                   Title = x.Title
                               };
                 // The foolowing requires the query data in memory

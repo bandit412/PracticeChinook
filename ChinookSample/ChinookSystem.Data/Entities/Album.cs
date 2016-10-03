@@ -36,6 +36,6 @@ namespace ChinookSystem.Data.Entities
         //   ICollection<T> point to "children"
         //   ParentName point to "parent"
         public virtual ICollection<Track> Tracks { get; set; }
-        public virtual Artist Artists { get; set; }
+        public virtual Artist Artist { get; set; }
     }
 }

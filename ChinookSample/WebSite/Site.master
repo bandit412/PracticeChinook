@@ -86,6 +86,7 @@
                             <asp:MenuItem Text="Home" NavigateUrl="~/" />
                             <asp:MenuItem Text="Queries" Value="linq">
                                 <asp:MenuItem Text="First Sample" NavigateUrl="~/Queries/FirstSample.aspx" />
+                                <asp:MenuItem Text="Rep Customers" NavigateUrl="~/Queries/RepresentativeCustomers.aspx" />
                             </asp:MenuItem>
                             <asp:MenuItem Text="About" NavigateUrl="~/About.aspx" />
                             <asp:MenuItem Text="Contact" NavigateUrl="~/Contact.aspx" />

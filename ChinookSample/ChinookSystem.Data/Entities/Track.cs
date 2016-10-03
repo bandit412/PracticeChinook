@@ -33,7 +33,7 @@ namespace ChinookSystem.Data.Entities
         public int? Bytes { get; set; }
         public decimal UnitPrice { get; set; }
 
-        public virtual MediaType MediaTypes { get; set; }
-        public virtual Album Albums { get; set; }
+        public virtual MediaType MediaType { get; set; }
+        public virtual Album Album { get; set; }
     }
 }
