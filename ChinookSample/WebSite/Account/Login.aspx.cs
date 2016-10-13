@@ -5,6 +5,10 @@ using System.Web;
 using System.Web.UI;
 using WebSite;
 
+#region Additional Namespaces for Security
+using ChinookSystem.Security; // this handles the ApplicationUser, ApplicationDbContext, and UserManager
+#endregion
+
 public partial class Account_Login : Page
 {
         protected void Page_Load(object sender, EventArgs e)

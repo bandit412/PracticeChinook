@@ -46,7 +46,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" runat="server" href="~/">Application name</a>
+                    <a class="navbar-brand" runat="server" href="~/">Chinook Sample</a>
                 </div>
                 <div class="navbar-collapse collapse">
                    <%-- this is the old, default menu that could still be used but you would only have root menu items --%>

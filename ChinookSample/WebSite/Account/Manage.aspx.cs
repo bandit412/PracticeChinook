@@ -4,6 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using WebSite;
 
+#region Additional Namespaces for Security
+using ChinookSystem.Security; // this handles the ApplicationUser, ApplicationDbContext, and UserManager
+#endregion
+
 public partial class Account_Manage : System.Web.UI.Page
 {
     protected string SuccessMessage
