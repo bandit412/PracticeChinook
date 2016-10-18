@@ -8,14 +8,14 @@ namespace ChinookSystem.Security
 {
     public class UserProfile
     {
-        public string UserId { get; set; }            // AspNetUser
-        public string UserName { get; set; }          // AspNetUser
-        public int? EmployeeId { get; set; }          // AspNetUser
-        public int? CustomerId { get; set; }          // AspNetUser
-        public string FirstName { get; set; }         // Employee or Customer table
-        public string LastName { get; set; }          // Employee or Customer table
-        public string Email { get; set; }             // AspNetUser
-        public string EmailConfirmation { get; set; } // AspNetUser
+        public string UserId { get; set; }            // AspNetUsers
+        public string UserName { get; set; }          // AspNetUsers
+        public int? EmployeeId { get; set; }          // AspNetUsers
+        public int? CustomerId { get; set; }          // AspNetUsers
+        public string FirstName { get; set; }         // Employees or Customers table
+        public string LastName { get; set; }          // Employees or Customers table
+        public string Email { get; set; }             // AspNetUsers
+        public string EmailConfirmation { get; set; } // AspNetUsers
         public IEnumerable<string> RoleMemberships { get; set; }
     }
 }
