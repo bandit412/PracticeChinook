@@ -127,6 +127,7 @@ namespace ChinookSystem.Security
             this.Create(newUserAccount, STR_DEFAULT_PASSWORD);
 
             // Assign the user to an appropriate role
+            // Uses the GUID-like User ID from the Users table
             switch (userInfo.UserType)
             {
                 case UnregisteredUserType.Customer:
