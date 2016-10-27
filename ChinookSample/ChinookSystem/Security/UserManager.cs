@@ -58,22 +58,22 @@ namespace ChinookSystem.Security
         //    3. Combine the DataSets to get the data for the GridView;
         //        UnregisteredEmployees.Union(UnregisteredCustomers).ToList()
         [DataObjectMethod(DataObjectMethodType.Select,false)]
-        public List<UnregisteredUserProfile> ListAllUnregisteredUsers()
+        public List<UnregisteredUserProfile> ListAllUnRegisteredUsers()
         {
             using (var context = new ChinookContext())
             {
                 // The data needs to be in memory for execution for the next query
                 // To accomplish this use .ToList() which will force the query to execute
-                // IEnumerable set containin a List<> of employee ids
+                // List set containin a List<> of employee ids
                 var registeredEmployees = (from emp in Users
                                           where emp.EmployeeId.HasValue
                                           select emp.EmployeeId).ToList();
-                // compare the List set to the user data table Employees
+                // Compare the List set to the user data table Employees
                 var unregisteredEmployees = (from emp in context.Employees
                                             where !registeredEmployees.Any(eId => emp.EmployeeId == eId)
                                             select new UnregisteredUserProfile
                                             {
-                                                UserId = emp.EmployeeId,
+                                                CustomerEmployeeId = emp.EmployeeId,
                                                 FirstName = emp.FirstName,
                                                 LastName = emp.LastName,
                                                 UserType = UnregisteredUserType.Employee
@@ -83,17 +83,17 @@ namespace ChinookSystem.Security
                 var registeredCustomers = (from cust in Users
                                           where cust.CustomerId.HasValue
                                           select cust.CustomerId).ToList();
-                // compare the List set to the user data table Customers
+                // Compare the List set to the user data table Customers
                 var unregisteredCustomers = (from cust in context.Customers
                                             where !registeredCustomers.Any(cId => cust.CustomerId == cId)
                                             select new UnregisteredUserProfile
                                             {
-                                                UserId = cust.CustomerId,
+                                                CustomerEmployeeId = cust.CustomerId,
                                                 FirstName = cust.FirstName,
                                                 LastName = cust.LastName,
                                                 UserType = UnregisteredUserType.Customer
                                             }).ToList();
-                // Last thing to do is to combine the two physically identcally layed out DataSets
+                // Last thing to do is to combine the two physically identcally laid out DataSets
                 //   of UnregisteredUserProfile
                 return unregisteredEmployees.Union(unregisteredCustomers).ToList();
             }
@@ -108,18 +108,18 @@ namespace ChinookSystem.Security
             // The instance of the required user is based on our ApplicationUser
             var newUserAccount = new ApplicationUser()
             {
-                UserName = userInfo.UserName,
-                Email = userInfo.Email
+                UserName = userInfo.AssignedUserName,
+                Email = userInfo.AssignedEmail
             };
 
             // Set the CustomerId or EmployeeId
             switch(userInfo.UserType)
             {
                 case UnregisteredUserType.Customer:
-                    newUserAccount.Id = userInfo.UserId.ToString();
+                    newUserAccount.Id = userInfo.CustomerEmployeeId.ToString();
                     break;
                 case UnregisteredUserType.Employee:
-                    newUserAccount.Id = userInfo.UserId.ToString();
+                    newUserAccount.Id = userInfo.CustomerEmployeeId.ToString();
                     break;
             }
 

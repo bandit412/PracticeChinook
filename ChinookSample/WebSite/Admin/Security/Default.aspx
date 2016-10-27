@@ -97,7 +97,7 @@
                     <asp:GridView ID="UnregisteredUsersGridView" runat="server"
                         AutoGenerateColumns="False"
                         DataSourceID="UnregisteredUsersODS"
-                        DataKeyNames="UserId"
+                        DataKeyNames="CustomerEmployeeId"
                         ItemType="ChinookSystem.Security.UnregisteredUserProfile"
                         OnSelectedIndexChanging="UnregisteredUsersGridView_SelectedIndexChanging">
                         <Columns>
@@ -107,13 +107,13 @@
                             <asp:BoundField DataField="LastName" HeaderText="Last Name" SortExpression="LastName"></asp:BoundField>
                             <asp:TemplateField HeaderText="AssignedUserName" SortExpression="AssignedUserName">
                                 <ItemTemplate>
-                                    <asp:TextBox runat="server" Text='<%# Bind("UserName") %>'
+                                    <asp:TextBox runat="server" Text='<%# Bind("AssignedUserName") %>'
                                         ID="AssignedUserName"></asp:TextBox>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="AssignedEmail" SortExpression="AssignedEmail">
                                 <ItemTemplate>
-                                    <asp:TextBox runat="server" Text='<%# Bind("Email") %>'
+                                    <asp:TextBox runat="server" Text='<%# Bind("AssignedEmail") %>'
                                         ID="AssignedEmail"></asp:TextBox>
                                 </ItemTemplate>
                             </asp:TemplateField>

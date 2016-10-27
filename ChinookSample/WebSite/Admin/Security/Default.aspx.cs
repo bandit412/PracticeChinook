@@ -56,12 +56,12 @@ public partial class Admin_Security_Default : System.Web.UI.Page
             //   therefore they start at 0
             UnregisteredUserProfile user = new UnregisteredUserProfile()
             {
-                UserId = int.Parse(UnregisteredUsersGridView.SelectedDataKey.Value.ToString()),
+                CustomerEmployeeId = int.Parse(UnregisteredUsersGridView.SelectedDataKey.Value.ToString()),
                 UserType = (UnregisteredUserType)Enum.Parse(typeof(UnregisteredUserType), gvRow.Cells[1].Text),
                 FirstName = gvRow.Cells[2].Text,
                 LastName = gvRow.Cells[3].Text,
-                UserName = assignedUserName,
-                Email = assignedEmail
+                AssignedUserName = assignedUserName,
+                AssignedEmail = assignedEmail
             };
 
             // Register the user via the Chinook.UserManager controller
