@@ -116,10 +116,10 @@ namespace ChinookSystem.Security
             switch(userInfo.UserType)
             {
                 case UnregisteredUserType.Customer:
-                    newUserAccount.Id = userInfo.CustomerEmployeeId.ToString();
+                    newUserAccount.CustomerId = userInfo.CustomerEmployeeId;
                     break;
                 case UnregisteredUserType.Employee:
-                    newUserAccount.Id = userInfo.CustomerEmployeeId.ToString();
+                    newUserAccount.EmployeeId = userInfo.CustomerEmployeeId;
                     break;
             }
 
