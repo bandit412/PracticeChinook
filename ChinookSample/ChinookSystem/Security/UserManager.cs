@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity.EntityFramework;    // UserStore
 using Microsoft.AspNet.Identity;                    // UserManager
 using System.ComponentModel;                        // ODS
 using ChinookSystem.DAL;                            // DbContext
+using ChinookSystem.Data.Entities;                  // For our own Entity classes
 #endregion
 
 namespace ChinookSystem.Security
@@ -57,7 +58,7 @@ namespace ChinookSystem.Security
         //                \--> Unregistered customers
         //    3. Combine the DataSets to get the data for the GridView;
         //        UnregisteredEmployees.Union(UnregisteredCustomers).ToList()
-        [DataObjectMethod(DataObjectMethodType.Select,false)]
+        [DataObjectMethod(DataObjectMethodType.Select, false)]
         public List<UnregisteredUserProfile> ListAllUnRegisteredUsers()
         {
             using (var context = new ChinookContext())
@@ -66,33 +67,33 @@ namespace ChinookSystem.Security
                 // To accomplish this use .ToList() which will force the query to execute
                 // List set containin a List<> of employee ids
                 var registeredEmployees = (from emp in Users
-                                          where emp.EmployeeId.HasValue
-                                          select emp.EmployeeId).ToList();
+                                           where emp.EmployeeId.HasValue
+                                           select emp.EmployeeId).ToList();
                 // Compare the List set to the user data table Employees
                 var unregisteredEmployees = (from emp in context.Employees
-                                            where !registeredEmployees.Any(eId => emp.EmployeeId == eId)
-                                            select new UnregisteredUserProfile
-                                            {
-                                                CustomerEmployeeId = emp.EmployeeId,
-                                                FirstName = emp.FirstName,
-                                                LastName = emp.LastName,
-                                                UserType = UnregisteredUserType.Employee
-                                            }).ToList();
+                                             where !registeredEmployees.Any(eId => emp.EmployeeId == eId)
+                                             select new UnregisteredUserProfile
+                                             {
+                                                 CustomerEmployeeId = emp.EmployeeId,
+                                                 FirstName = emp.FirstName,
+                                                 LastName = emp.LastName,
+                                                 UserType = UnregisteredUserType.Employee
+                                             }).ToList();
 
                 // List set containin a List<> of customer ids
                 var registeredCustomers = (from cust in Users
-                                          where cust.CustomerId.HasValue
-                                          select cust.CustomerId).ToList();
+                                           where cust.CustomerId.HasValue
+                                           select cust.CustomerId).ToList();
                 // Compare the List set to the user data table Customers
                 var unregisteredCustomers = (from cust in context.Customers
-                                            where !registeredCustomers.Any(cId => cust.CustomerId == cId)
-                                            select new UnregisteredUserProfile
-                                            {
-                                                CustomerEmployeeId = cust.CustomerId,
-                                                FirstName = cust.FirstName,
-                                                LastName = cust.LastName,
-                                                UserType = UnregisteredUserType.Customer
-                                            }).ToList();
+                                             where !registeredCustomers.Any(cId => cust.CustomerId == cId)
+                                             select new UnregisteredUserProfile
+                                             {
+                                                 CustomerEmployeeId = cust.CustomerId,
+                                                 FirstName = cust.FirstName,
+                                                 LastName = cust.LastName,
+                                                 UserType = UnregisteredUserType.Customer
+                                             }).ToList();
                 // Last thing to do is to combine the two physically identcally laid out DataSets
                 //   of UnregisteredUserProfile
                 return unregisteredEmployees.Union(unregisteredCustomers).ToList();
@@ -113,7 +114,7 @@ namespace ChinookSystem.Security
             };
 
             // Set the CustomerId or EmployeeId
-            switch(userInfo.UserType)
+            switch (userInfo.UserType)
             {
                 case UnregisteredUserType.Customer:
                     newUserAccount.CustomerId = userInfo.CustomerEmployeeId;
@@ -139,9 +140,96 @@ namespace ChinookSystem.Security
             }
         } //eom
 
+        // List ALL current users
+        [DataObjectMethod(DataObjectMethodType.Select, false)]
+        public List<UserProfile> ListAllUsers()
+        {
+            // We will be using the RoleManager to get Roles
+            var rm = new RoleManager();
+            // Get the current users off the User security table
+            var results = from person in Users.ToList()
+                          select new UserProfile()
+                          {
+                              UserId = person.Id,
+                              UserName = person.UserName,
+                              Email = person.Email,
+                              EmailConfirmation = person.EmailConfirmed,
+                              CustomerId = person.CustomerId,
+                              EmployeeId = person.EmployeeId,
+                              RoleMemberships = person.Roles.Select(r => rm.FindById(r.RoleId).Name)
+                          };
+            // Using our our own Data Tables, gather the User FirstName and LastName
+            using (var context = new ChinookContext())
+            {
+                Employee eTemp;
+                Customer cTemp;
+                foreach (var person in results)
+                {
+                    if (person.EmployeeId.HasValue)
+                    {
+                        eTemp = context.Employees.Find(person.EmployeeId);
+                        person.FirstName = eTemp.FirstName;
+                        person.LastName = eTemp.LastName;
+                    }
+                    else if (person.CustomerId.HasValue)
+                    {
+                        cTemp = context.Customers.Find(person.CustomerId);
+                        person.FirstName = cTemp.FirstName;
+                        person.LastName = cTemp.LastName;
+                    }
+                    else
+                    {
+                        person.FirstName = "unknown";
+                        person.LastName = "";
+                    }
+                }
+            }
+            return results.ToList();
+        } //eom
+
         // Add a user to the Users table (ListView)
+        [DataObjectMethod(DataObjectMethodType.Insert, true)]
+        public void AddUser(UserProfile userInfo)
+        {
+            // Create an instance representing a new User
+            var userAccount = new ApplicationUser()
+            {
+                UserName = userInfo.UserName,
+                Email = userInfo.Email
+            };
+
+            // Create the new user on the physical Users table
+            this.Create(userAccount, STR_DEFAULT_PASSWORD);
+
+            // Create the user roles which were chosen at insert time
+            foreach(var roleName in userInfo.RoleMemberships)
+            {
+                this.AddToRoles(userAccount.Id, roleName);
+            }
+        } //eom
 
         // Delete a user from the Users table (ListView)
+        [DataObjectMethod(DataObjectMethodType.Delete,true)]
+        public void RemoveUser(UserProfile userInfo)
+        {
+            // Business Rule!
+            // The Webmaster CANNOT be deleted
+
+            // Realize that the only information that you have at this time is the
+            //   DataKeyNames value which is the UserId (on the User Security table
+            //   with the field is Id)
+
+            // Obtain the UserName from the Security User table using the UserId value
+            string userName = this.Users.Where(u => u.Id == userInfo.UserId)
+                .Select(u => u.UserName).SingleOrDefault().ToString();
+
+            // Remove the user
+            if(userName.Equals(STR_WEBMASTER_USERNAME))
+            {
+                throw new Exception("Webmaster account CANNOT be be removed!");
+            }
+            this.Delete(this.FindById(userInfo.UserId));
+        }//eom
 
     } //eoc
 } //eon
