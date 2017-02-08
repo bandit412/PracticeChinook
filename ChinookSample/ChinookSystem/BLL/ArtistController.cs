@@ -29,7 +29,7 @@ namespace ChinookSystem.BLL
             }
         }
 
-        // Report a DataSet containing data from multiple entitie
+        // Report a DataSet containing data from multiple entities
         // This will use LINQ to Entity access
         // POCO classes will be used to define the data
         [DataObjectMethod(DataObjectMethodType.Select, false)]
@@ -56,7 +56,7 @@ namespace ChinookSystem.BLL
                                   Name = x.Artist.Name,
                                   Title = x.Title
                               };
-                // The foolowing requires the query data in memory
+                // The following requires the query data in memory
                 //   .ToList()
                 // At this poin the query will actuall execute
                 return results.ToList();
